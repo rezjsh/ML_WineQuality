@@ -2,51 +2,31 @@ from setuptools import setup, find_packages
 from typing import List
 
 # Read the README.md for long description
-with open("README.md", "r", encoding="utf-8") as f:
-    long_description = f.read()
+with open("README.md", "r", encoding="utf-8") as fh:
+    long_description = fh.read()
 
 # Read requirements.txt for dependencies
-def get_requirements(file_path: str) -> List[str]:
-    """
-    This function returns a list of requirements from a requirements file.
-    """
-    requirements = []
-    with open(file_path) as f:
-        for line in f:
-            line = line.strip()
-            if line and not line.startswith('#'):
-                requirements.append(line)
-    return requirements
+with open("requirements.txt", "r", encoding="utf-8") as fh:
+    requirements = [line.strip() for line in fh if line.strip() and not line.startswith("#")]
 
-__version__ = "0.0.0"
+__version__ = "0.0.1"
 
 REPO_NAME = "ML_WineQuality"
-AUTHOR_USER_NAME = "rezjsh"
+AUTHOR_USER_NAME = "Reza"
 SRC_REPO = "wine_quality_ml"
 
 # Define development dependencies
-DEV_REQUIREMENTS = [
-    "pytest>=6.2.0",
-    "pytest-cov>=2.12.0",
-    "black>=21.5b2",
-    "flake8>=3.9.0",
-    "isort>=5.9.0",
-    "mypy>=0.910",
-    "pre-commit>=2.13.0",
-]
+DEV_REQUIREMENTS = []
 
 # Define documentation dependencies
-DOCS_REQUIREMENTS = [
-    "sphinx>=4.0.0",
-    "sphinx-rtd-theme>=0.5.0",
-    "nbsphinx>=0.8.0",
-]
+DOCS_REQUIREMENTS = []
 
 setup(
     name=SRC_REPO,
     version=__version__,
     author=AUTHOR_USER_NAME,
-    description="A machine learning package for Wine Quality Prediction",
+    author_email="your.email@example.com",
+    description="Wine Quality Prediction using Machine Learning",
     long_description=long_description,
     long_description_content_type="text/markdown",
     url=f"https://github.com/{AUTHOR_USER_NAME}/{REPO_NAME}",
@@ -55,10 +35,9 @@ setup(
         "Documentation": f"https://{AUTHOR_USER_NAME}.github.io/{REPO_NAME}/",
         "Source Code": f"https://github.com/{AUTHOR_USER_NAME}/{REPO_NAME}",
     },
-    package_dir={"": SRC_REPO},
-    packages=find_packages(where=SRC_REPO),
+    packages=find_packages(),
     python_requires=">=3.8",
-    install_requires=get_requirements("requirements.txt"),
+    install_requires=requirements,
     extras_require={
         "dev": DEV_REQUIREMENTS,
         "docs": DOCS_REQUIREMENTS,
